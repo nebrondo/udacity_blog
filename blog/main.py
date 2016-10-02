@@ -50,10 +50,10 @@ class MainHandler(TemplateHandler):
         self.render_front()
         #self.response.out.write(form)
 class NewPostHandler(TemplateHandler):
-    def render_newpost(self, subject="",content="",error=""):
+    def render_newpost(self, error=""):
         #arts = db.GqlQuery("select * from Blog "
         #                    "order by created DESC")
-        self.render("newpost.html",subject,content,error)
+        self.render("newpost.html",error=error)
     def get(self):
         subject = self.request.get("subject")
         content = self.request.get("content")
@@ -71,10 +71,11 @@ class NewPostHandler(TemplateHandler):
         if content and subject:
             b = Blog(subject=subject,content=content)
             b.put()
+            #b.get_by_id()
             self.redirect("/")
         else:
             error = "we need both a subject and content"
-            self.render_newpost(subject,content,error)
+            self.render_newpost(error)
 
 
 
